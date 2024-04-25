@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: qperf 
+spec:
+  selector:
+    matchLabels:
+      app: qperf 
+  template:
+    metadata:
+      labels:
+        app: qperf 
+    spec:      
+      tolerations:
+        - effect: NoSchedule
+          operator: Exists
+        - effect: NoExecute
+          operator: Exists
+        - key: CriticalAddonsOnly
+          operator: Exists
+      hostNetwork: true
+      containers:
+      - name: qperf 
+        image: docker.io/kubeovn/test:v1.13.0 
+        command:
+        - qperf
